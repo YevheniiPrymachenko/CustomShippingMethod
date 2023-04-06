@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Primak\CustomShipping\Api\DeliveryDateManagementInterface"
+                type="Primak\CustomShipping\Model\DeliveryDateManagement"/>
+    <type name="Magento\Checkout\Model\ShippingInformationManagement">
+        <plugin name="save_delivery_date_information" type="Primak\CustomShipping\Plugin\Checkout\ShippingInformationManagement"/>
+    </type>
+    <type name="Magento\Sales\Api\OrderManagementInterface">
+        <plugin name="place_order_save_delivery_date_order_id"
+                type="Primak\CustomShipping\Plugin\OrderManagementPlugin"/>
+    </type>
+    <type name="Magento\Quote\Api\ShipmentEstimationInterface">
+        <plugin name="custom_delivery_date_check" type="Primak\CustomShipping\Plugin\Model\Quote\BeforeEstimateByExtendedAddress"/>
+    </type>
+    <type name="Primak\CustomShipping\Model\Carrier\Calculate">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+</config>

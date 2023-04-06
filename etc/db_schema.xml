@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="primak_date_attribute" resource="default" engine="innodb" comment="Date Attributes Table">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Entity ID"/>
+        <column xsi:type="int" name="quote_attribute_id" padding="10" unsigned="true" nullable="true" identity="false"
+                comment="Quote ID"/>
+        <column xsi:type="int" name="order_attribute_id" padding="10" unsigned="true" nullable="true" identity="false"
+                comment="Order ID"/>
+        <column xsi:type="varchar" name="delivery_date" nullable="false" length="255" comment="delivery_date"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PRIMAK_DATE_ATTRS_QUOTE_ATTRIBUTE_ID_QUOTE_ENTT_ID"
+                    table="primak_date_attribute" column="quote_attribute_id" referenceTable="quote"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PRIMAK_DATE_ATTRS_ORDER_ATTRIBUTE_ID_SALES_ORDER_ENTT_ID"
+                    table="primak_date_attribute" column="order_attribute_id" referenceTable="sales_order"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+    </table>
+</schema>

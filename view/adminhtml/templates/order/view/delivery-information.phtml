@@ -1,0 +1,19 @@
+<?php
+/** @var Primak\CustomShipping\ViewModel\DeliveryDate $viewModelDeliveryDate */
+$viewModelDeliveryDate = $block->getData('viewModelDeliveryDate');
+$orderId = $this->getRequest()->getParam('order_id');
+if (isset($viewModelDeliveryDate)) {
+    if ($deliveryDate = $viewModelDeliveryDate->getOrderDeliveryDate((int)$orderId)) { ?>
+        <div class="admin__page-section-item-content delivery-information">
+            <br><strong><?= $block->escapeHtml(__('Delivery On:')) ?> </strong>
+            <span><?= $block->escapeHtml($deliveryDate) ?></span>
+        </div>
+
+        <script type="text/javascript">
+            require(['jquery'], function ($) {
+                $('.order-shipping-method').append($('.delivery-information'));
+            });
+        </script>
+        <?php
+    }
+}
