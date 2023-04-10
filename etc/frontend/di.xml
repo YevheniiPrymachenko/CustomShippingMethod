@@ -3,7 +3,7 @@
     <type name="Magento\Checkout\Block\Onepage">
         <arguments>
             <argument name="layoutProcessors" xsi:type="array">
-                <item name="checkoutComment" xsi:type="object">Primak\CustomShipping\Block\Checkout\LayoutProcessor</item>
+                <item name="checkoutDeliveryDate" xsi:type="object">Primak\CustomShipping\Block\Checkout\LayoutProcessor</item>
             </argument>
         </arguments>
     </type>

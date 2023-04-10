@@ -4,7 +4,9 @@
     <body>
         <referenceBlock name="content">
             <block class="Magento\Framework\View\Element\Template" name="order_delivery_date"
-                   template="Primak_CustomShipping::order/view/delivery-information.phtml" after="sales.order.info">
+                   template="Primak_CustomShipping::order/view/delivery-information.phtml"
+                   ifconfig="carriers/customshipping/active"
+                   after="sales.order.info">
                 <arguments>
                     <argument name="viewModelDeliveryDate" xsi:type="object">
                         Primak\CustomShipping\ViewModel\DeliveryDate

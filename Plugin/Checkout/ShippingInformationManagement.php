@@ -53,24 +53,26 @@ class ShippingInformationManagement
         ShippingInformationInterface                          $addressInformation
     )
     {
-        $extensionAttributes = $addressInformation->getShippingAddress()->getExtensionAttributes();
+        if ($this->config->getIsActive()) {
+            $extensionAttributes = $addressInformation->getShippingAddress()->getExtensionAttributes();
 
-        if (!$extensionAttributes || !$this->config->getIsActive()) {
-            return [$cartId, $addressInformation];
-        }
-
-        try {
-            $deliveryDateFromDatabase = $this->management->getByQuoteAttributeId($cartId);
-
-            if (!$deliveryDateFromDatabase->getQuoteAttributeId()) {
-                $this->management->saveSelectDateToQuote($cartId, $extensionAttributes->getDeliveryDate());
-            } else {
-                $this->management->updateSelectDateToQuote($cartId, $extensionAttributes->getDeliveryDate());
+            if (!$extensionAttributes || !$this->config->getIsActive()) {
+                return [$cartId, $addressInformation];
             }
-        } catch (\Exception $e) {
-            throw new LocalizedException(__($e->getMessage()));
-        }
 
+            try {
+                $deliveryDateFromDatabase = $this->management->getByQuoteAttributeId($cartId);
+
+                if (!$deliveryDateFromDatabase->getQuoteAttributeId()) {
+                    $this->management->saveSelectDateToQuote($cartId, $extensionAttributes->getDeliveryDate());
+                } else {
+                    $this->management->updateSelectDateToQuote($cartId, $extensionAttributes->getDeliveryDate());
+                }
+            } catch (\Exception $e) {
+                throw new LocalizedException(__($e->getMessage()));
+            }
+
+        }
         return [$cartId, $addressInformation];
     }
 }

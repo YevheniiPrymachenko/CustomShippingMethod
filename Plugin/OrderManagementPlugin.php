@@ -7,6 +7,7 @@ namespace Primak\CustomShipping\Plugin;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\OrderManagementInterface;
 use Primak\CustomShipping\Api\DeliveryDateManagementInterface;
+use Primak\CustomShipping\Model\Config\Config;
 
 /**
  * Class OrderManagementPlugin
@@ -19,13 +20,21 @@ class OrderManagementPlugin
     protected DeliveryDateManagementInterface $management;
 
     /**
+     * @var Config
+     */
+    private $config;
+
+    /**
      * @param DeliveryDateManagementInterface $management
+     * @param Config $config
      */
     public function __construct(
-        DeliveryDateManagementInterface $management
+        DeliveryDateManagementInterface $management,
+        Config $config
     )
     {
         $this->management = $management;
+        $this->config = $config;
     }
 
     /**
@@ -40,9 +49,11 @@ class OrderManagementPlugin
         OrderInterface           $order
     ): object
     {
-        $quoteId = $order->getQuoteId();
-        if ($quoteId) {
-            $this->management->saveOrderIdToSelectDate($order->getEntityId(), $quoteId);
+        if ($this->config->getIsActive()) {
+            $quoteId = $order->getQuoteId();
+            if ($quoteId) {
+                $this->management->saveOrderIdToSelectDate($order->getEntityId(), $quoteId);
+            }
         }
         return $order;
     }
